@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        h2{
+            text-align: center;
+        }
+        div{
+            
+            margin: auto 20% ;
+        }
+        ul {
+            list-style-type: none;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            
+        }
+        img{
+            width: 50%;
+            border-radius: 8px;
+        }
+    </style>
+
+    <h2>Random Users visualizing</h2>
+    <div>
+        <ul id="users">
+
+        </ul>
+    </div>
+    
+    
+    <script>
+        function createUser(element){
+            return document.createElement(element)
+        }
+
+        function append( parent, element){
+            return parent.appendChild(element)
+        }
+        fetch('https://randomuser.me/api/?results=6')
+            .then((resp) => resp.json())
+            .then(function (data){
+                let user=data.results;
+                return user.map(function (user) {
+                    let li = createUser('li'),
+                        img= createUser('img'),
+                        p = createUser('p');
+                    img.src=user.picture.large;
+                    p.innerHTML = `${user.name.first} ${user.name.last}`
+                    append(li, img);
+                    append(li, p);
+                    append(document.getElementById('users'), li);
+                })
+            })
+            .catch( function (error){
+                console.log(error);
+            })
+    </script>
+</body>
+
+</html>
